@@ -33,3 +33,16 @@ The model was trained with the following configuration to ensure stable converge
 | **Batch Size** | 4 | Per-device batch size (Effective Batch Size = 16 with Gradient Accumulation). |
 | **Max Sequence Length**| 512 | Optimized based on the 95th percentile of tokenized GSM8K lengths. |
 | **Optimizer** | `paged_adamw_32bit` | Handles memory paging during training to prevent OOM errors. |
+
+## Evaluation Results
+
+The model was evaluated on the full **GSM8K test set** (1,319 samples) using Chain-of-Thought (CoT) prompting. Accuracy is measured by the model's ability to produce the correct numerical answer following the `####` delimiter.
+
+| Model | Evaluation Type | Accuracy (%) | Correct Samples |
+| :--- | :--- | :---: | :---: |
+| Llama-3.2-3B (Base) | Zero-Shot | 2.58% | 34 / 1319 |
+| Llama-3.2-3B (Instruct) | Zero-Shot | % |  / 1319 |
+| **Llama-3.2-3B (Base) + QLoRA (Ours)** | SFT (1 epoch) | **32.90%** | **434 / 1319** |
+
+### Key Observations
+* **Parameter Efficiency:** These gains were achieved by training only a tiny number of parameters compared to the total model parameters, preserving the general knowledge of the base model while specializing in math.
