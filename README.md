@@ -36,7 +36,7 @@ The model was trained with the following configuration to ensure stable converge
 
 ## Evaluation Results
 
-The model was evaluated on the full **GSM8K test set** (1,319 samples) using Chain-of-Thought (CoT) prompting. Accuracy is measured by the model's ability to produce the correct numerical answer following the `####` delimiter.
+The model was evaluated on the full **GSM8K test set** (1,319 samples). 
 
 | Model | Evaluation Type | Accuracy (%) | Correct Samples |
 | :--- | :--- | :---: | :---: |
