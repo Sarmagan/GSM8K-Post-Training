@@ -41,8 +41,8 @@ The model was evaluated on the full **GSM8K test set** (1,319 samples).
 | Model | Evaluation Type | Accuracy (%) | Correct Samples |
 | :--- | :--- | :---: | :---: |
 | Llama-3.2-3B (Base) | Zero-Shot | 2.58% | 34 / 1319 |
-| Llama-3.2-3B (Instruct) | Zero-Shot | % |  / 1319 |
-| **Llama-3.2-3B (Base) + QLoRA (Ours)** | SFT (1 epoch) | **32.90%** | **434 / 1319** |
+| Llama-3.2-3B (Instruct) | Zero-Shot | 71.87% | 948 / 1319 |
+| Llama-3.2-3B (Base) + QLoRA (Ours) | SFT (1 epoch) | 32.90% | 434 / 1319 |
 
 ### Key Observations
 * **Parameter Efficiency:** These gains were achieved by training only a tiny number of parameters compared to the total model parameters, preserving the general knowledge of the base model while specializing in math.
