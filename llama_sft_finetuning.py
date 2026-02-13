@@ -27,7 +27,7 @@ PROJECT_RUN_NAME = f"{PROJECT_NAME}-{RUN_NAME}"
 HUB_MODEL_NAME = f"{HF_USER}/{PROJECT_RUN_NAME}"
 
 # Overall hyperparameters 
-EPOCHS = 1 
+EPOCHS = 2 
 BATCH_SIZE = 4 
 MAX_SEQUENCE_LENGTH = 512
 GRADIENT_ACCUMULATION_STEPS = 4
@@ -37,7 +37,7 @@ LORA_R = 32
 LORA_ALPHA = LORA_R * 2
 ATTENTION_LAYERS = ["q_proj", "v_proj", "k_proj", "o_proj"]
 MLP_LAYERS = ["gate_proj", "up_proj", "down_proj"]
-TARGET_MODULES = ATTENTION_LAYERS 
+TARGET_MODULES = ATTENTION_LAYERS + MLP_LAYERS
 LORA_DROPOUT = 0.1
 
 # Training hyperparameters 
