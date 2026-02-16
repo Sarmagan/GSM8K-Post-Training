@@ -12,10 +12,13 @@ from huggingface_hub import login
 
 # ── Configuration ──────────────────────────────────────────────────────────────
 BASE_MODEL = "meta-llama/Llama-3.2-3B"
-FINETUNED_ADAPTER = "SArmagan/gsm8k-2026-02-13_00.29.07"  # <-- UPDATE this
-REVISION="b05f2631f94ed55f95b0567a9ceddb117d1b82e6"
+FINETUNED_ADAPTER = "SArmagan/gsm8k-2026-02-13_18.57.41"# "SArmagan/gsm8k-2026-02-13_00.29.07"  # <-- UPDATE this
+REVISION="2ebf79024676a52174b24c567a0322268d20287d"  # "b05f2631f94ed55f95b0567a9ceddb117d1b82e6"
 
-NUM_EVAL_SAMPLES = 200  # Set to int for quick run, None for full test set
+# FINETUNED_ADAPTER = "SArmagan/gsm8k-grpo-2026-02-16_01.20.39"# "SArmagan/gsm8k-2026-02-13_00.29.07"  # <-- UPDATE this
+# REVISION="c659369857582df077a472368cfdb2a4bf9bc434"  # "b05f2
+
+NUM_EVAL_SAMPLES = None  # Set to int for quick run, None for full test set
 MAX_NEW_TOKENS = 512
 EVAL_BATCH_SIZE = 32  # Adjust based on your GPU VRAM
 RESULTS_FILE = "eval_results.json"
@@ -86,7 +89,7 @@ def generate_batch(model, tokenizer, questions: list[str]) -> list[str]:
             **inputs,
             max_new_tokens=MAX_NEW_TOKENS,
             do_sample=False,
-            temperature=1.0,
+            temperature=0,
         )
 
     # Decode only newly generated tokens for each sample
@@ -162,7 +165,7 @@ def main():
     # ── 1. Base model ─────────────────────────────────────────────────────────
     print("Loading base model …")
     base_model, tokenizer = load_quantized_base(BASE_MODEL)
-    base_results, base_acc = evaluate_model(base_model, tokenizer, test_data, label="Base Model")
+    # base_results, base_acc = evaluate_model(base_model, tokenizer, test_data, label="Base Model")
 
     del base_model
     torch.cuda.empty_cache()
@@ -170,7 +173,7 @@ def main():
     # ── 2. Fine-tuned model ───────────────────────────────────────────────────
     print("Loading fine-tuned model (base + LoRA adapter) …")
     ft_model, tokenizer = load_quantized_base(BASE_MODEL)
-    ft_model = PeftModel.from_pretrained(ft_model, FINETUNED_ADAPTER, revision=REVISION)
+    ft_model = PeftModel.from_pretrained(ft_model, FINETUNED_ADAPTER, revision=REVISION) #  revision=REVISION
     ft_model.eval()
     ft_results, ft_acc = evaluate_model(ft_model, tokenizer, test_data, label="Fine-Tuned Model")
 
@@ -181,8 +184,8 @@ def main():
     print("\n" + "=" * 60)
     print("  RESULTS SUMMARY")
     print("=" * 60)
-    print(f"  Base Model Accuracy:       {base_acc:.2%}")
     print(f"  Fine-Tuned Model Accuracy: {ft_acc:.2%}")
+    print(f"  Base Model Accuracy:       {base_acc:.2%}")
     print(f"  Improvement:               {ft_acc - base_acc:+.2%}")
     print("=" * 60)
 
